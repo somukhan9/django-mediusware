@@ -55,7 +55,8 @@
                     </thead>
 
                     <tbody>
-                    <tr>
+
+                    {% comment %} <tr>
                         <td>1</td>
                         <td>T-Shirt <br> Created at : 25-Aug-2020</td>
                         <td>Quality product in low cost</td>
@@ -106,10 +107,74 @@
                                 <a href="" class="btn btn-success">Edit</a>
                             </div>
                         </td>
-                    </tr>
+                    </tr> {% endcomment %}
+
+                        {% for product in page_obj %}
+                        
+                            <tr>
+                                <td>{{product.id}}</td>
+                                <td>{{product.title|title}} <br> Created at : {{product.created_at}}</td>
+                                <td>{{product.description}}</td>
+
+                                <td>
+                                    <dl class="row mb-0" style="height: 80px; overflow: hidden" id="{{product.id}}">
+                                        {% for variant_price in product.productvariantprice_set.all %}
+                                            <dt class="col-sm-3 pb-0">
+                                            {{ variant_price.product_variant_one.variant_title }} /
+                                            {{ variant_price.product_variant_two.variant_title }} /
+                                            {{ variant_price.product_variant_three.variant_title }}
+                                            </dt>
+                                            <dd class="col-sm-9">
+                                            <dl class="row mb-0">
+                                                <dd class="col-sm-4 pb-0">Price : {{ variant_price.price }}</dd>
+                                                <dd class="col-sm-8 pb-0">InStock : {{ variant_price.stock }}</dd>
+                                            </dl>
+                                            </dd>
+                                        {% endfor %}
+                                    </dl>
+                                    <button onclick="$('#{{product.id}}').toggleClass('h-auto')" class="btn btn-sm btn-link">Show more</button>
+                                </td>
+
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="" class="btn btn-success">Edit</a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+
                     </tbody>
 
                 </table>
+
+                <!-- Pagination By value Two -->
+                <nav aria-label="..." style="display:flex; align-items:center; justify-content: center;">
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                            </li>
+                        {% endif %}
+
+                        {% for page_num in page_obj.paginator.page_range %}
+                            <li class="page-item {% if page_obj.number == page_num %}active{% endif %}" aria-current="page">
+                                {% if page_obj.number == page_num %}
+                                    <span class="page-link">{{ page_num }}</span>
+                                {% else %}
+                                    <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                        <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+
             </div>
 
         </div>
@@ -117,7 +182,7 @@
         <div class="card-footer">
             <div class="row justify-content-between">
                 <div class="col-md-6">
-                    <p>Showing 1 to 10 out of 100</p>
+                    <p>Showing {{ page_obj.start_index }} to {{ page_obj.end_index }} out of {{ page_obj.paginator.count }}</p>
                 </div>
                 <div class="col-md-2">
 
