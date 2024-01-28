@@ -169,12 +169,6 @@
                 <nav aria-label="..." style="display:flex; align-items:center; justify-content: flex-end;">
                     <ul class="pagination">
                             <li class="page-item {% if page_obj.has_previous %}{% else %}disabled{% endif %}">
-                                {% comment %} <a class="page-link" href="{% url "product:list.product" %}?{{ request.GET.urlencode }}&page={% if page_obj.has_previous %}{{ page_obj.previous_page_number }}{% else %}1{% endif %}">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a> {% endcomment %}
-                                {% comment %} <a class="page-link" href="{% url 'product:list.product' %}?title={{ request.GET.title|urlencode }}&variant={{ request.GET.variant|urlencode }}&price_from={{ request.GET.price_from|urlencode }}&price_to={{ request.GET.price_to|urlencode }}&date={{ request.GET.date|urlencode }}&page={% if page_obj.has_previous %}{{ page_obj.previous_page_number }}{% else %}1{% endif %}">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a> {% endcomment %}
                                  <a class="page-link" href="{% if page_obj.has_previous %}
                                     {% query_url 'page'  page_obj.previous_page_number request.GET.urlencode %}
                                  {% else %}
@@ -189,8 +183,6 @@
                                 {% if page_obj.number == page_num %}
                                     <span class="page-link">{{ page_num }}</span>
                                 {% else %}
-                                    {% comment %} <a class="page-link" href="{% url "product:list.product" %}?{{ request.GET.urlencode }}&page={{ page_num }}">{{ page_num }}</a> {% endcomment %}
-                                    {% comment %} <a class="page-link" href="{% url 'product:list.product' %}?title={{ request.GET.title|urlencode }}&variant={{ request.GET.variant|urlencode }}&price_from={{ request.GET.price_from|urlencode }}&price_to={{ request.GET.price_to|urlencode }}&date={{ request.GET.date|urlencode }}&page={{ page_num }}">{{ page_num }}</a> {% endcomment %}
                                      <a class="page-link" href="{% query_url 'page'  page_num request.GET.urlencode %}">
                                         {{ page_num }}
                                     </a>
@@ -199,12 +191,6 @@
                         {% endfor %}
 
                         <li class="page-item {% if page_obj.has_next %}{% else %}disabled{% endif %}">
-                            {% comment %} <a class="page-link" href="{% url "product:list.product" %}?{{ request.GET.urlencode }}&page={% if page_obj.has_next %}{{ page_obj.next_page_number }}{% else %}{{ page_obj.paginator.num_pages }}{% endif %}">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a> {% endcomment %}
-                            {% comment %} <a class="page-link" href="{% url 'product:list.product' %}?title={{ request.GET.title|urlencode }}&variant={{ request.GET.variant|urlencode }}&price_from={{ request.GET.price_from|urlencode }}&price_to={{ request.GET.price_to|urlencode }}&date={{ request.GET.date|urlencode }}&page={% if page_obj.has_next %}{{ page_obj.next_page_number }}{% else %}{{ page_obj.paginator.num_pages }}{% endif %}">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a> {% endcomment %}
                             <a class="page-link" href="{% if page_obj.has_next %}
                                     {% query_url 'page'  page_obj.next_page_number request.GET.urlencode %}
                                  {% else %}
@@ -234,8 +220,3 @@
         </div>
     </div>
 {% endblock %}
-
-
-
-
-<script></script>

@@ -5,6 +5,7 @@ from django.urls import path
 from authentication.forms import LoginForm
 from authentication.views import DashboardView
 
+
 urlpatterns = [
     path('', auth_views.LoginView.as_view(
         template_name='login.html',

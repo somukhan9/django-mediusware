@@ -1,8 +1,17 @@
 from django.views import generic
+# from django.views.decorators.csrf import csrf_exempt
+
+from rest_framework.generics import CreateAPIView
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework import status
 
 from datetime import datetime
 
-from product.models import Variant, Product
+from product.models import Variant, Product, ProductVariant
+
+from product.serializers import ProductSerializer
 
 
 class CreateProductView(generic.TemplateView):
@@ -16,10 +25,17 @@ class CreateProductView(generic.TemplateView):
         return context
 
 
+# @csrf_exempt  # not recommended for production
+class CreateProductAPIView(CreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
 class ListProductView(generic.ListView):
     model = Product
     template_name = 'products/list.html'
     paginate_by = 2
+    ordering = "-created_at"
 
     def get_queryset(self):
         queryset = super().get_queryset()
